@@ -7,13 +7,14 @@ IF(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     conan_basic_setup()
 ENDIF()
 
-find_package(OpenGL REQUIRED)
-
-find_package(OpenCV 4.10.0)
+set(OpenCV_DIR = /Users/rodrigoorozco/Source-libs/OpenCV/lib/cmake/opencv4)
+    # build from source // path to OpenCVConfig.cmake 
+find_package(OpenCV 4.10.0 PATHS ${OpenCV_DIR})
 message("openCV version : ${OpenCV_VERSION}")
 
 include_directories(${OpenCV_VERSION})
 link_directories(${OpenCV_LIB_DIR})
 
+
 add_executable(phototool main.cpp)
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${OpenCV_LIBS} OpenGL::GL)
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${OpenCV_LIBS})

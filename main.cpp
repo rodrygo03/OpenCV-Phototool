@@ -51,11 +51,11 @@ void showHistoCallback(int state, void* userData)
         );
         line(histImg, cv::Point(step*(i-1), hei - cvRound(g_hist.at<float>(i-1))),
                       cv::Point(step*i, hei - cvRound(g_hist.at<float>(i))),
-             cv::Scalar(255, 0 , 0)
+             cv::Scalar(0, 255 , 0)
         );
         line(histImg, cv::Point(step*(i-1), hei - cvRound(r_hist.at<float>(i-1))),
                       cv::Point(step*i, hei - cvRound(r_hist.at<float>(i))),
-             cv::Scalar(255, 0 , 0)
+             cv::Scalar(0, 0 , 255)
         );
     }
 
@@ -90,7 +90,7 @@ void lomoCallback(int state, void* userData)
     for (int i=0; i<256; i++)
     {
         double x = (double) i / 256.0;
-        plut[i] = cvRound(256.0 * (1.0 / (1.0 + std::pow(exp, -((x - 0.5)/1)))));
+        plut[i] = cvRound(256.0 * (1 / (1 + std::pow(exp, -((x - 0.5)/1)))));
     }
 
     // apply curve transfer only to red channel
@@ -111,6 +111,13 @@ void lomoCallback(int state, void* userData)
     resultf.convertTo(result, CV_8UC3);
 
     cv::imshow("Lomograpy", result);
+    halo.release();
+    resultf.release();
+    lut.release();
+    bgr[0].release();
+    bgr[1].release();
+    bgr[2].release();
+
 };
 
 void cartoonCallback(int state, void* userData)
