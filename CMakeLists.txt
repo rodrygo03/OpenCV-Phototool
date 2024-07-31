@@ -9,6 +9,8 @@ ENDIF()
 
 set(OpenCV_DIR = /Users/rodrigoorozco/Source-libs/OpenCV/lib/cmake/opencv4)
     # build from source // path to OpenCVConfig.cmake 
+    # address brew install qt compilation dependecy
+    # build from source instead
 find_package(OpenCV 4.10.0 PATHS ${OpenCV_DIR})
 message("openCV version : ${OpenCV_VERSION}")
 

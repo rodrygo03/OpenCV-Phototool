@@ -4,7 +4,8 @@
 
 #include <iostream>
 
-
+/* global var: to be processed withing the effect fucntion
+    consider passing by refernce and omit global scope */
 cv::Mat img;
 const char* keys = 
 {
@@ -28,8 +29,8 @@ void showHistoCallback(int state, void* userData)
     cv::Mat r_hist;
 
     cv::calcHist(&bgr[0], 1, 0, cv::Mat(), b_hist, 1, &binnum, &histoRange);
-    cv::calcHist(&bgr[1], 1, 0, cv::Mat(), b_hist, 1, &binnum, &histoRange);
-    cv::calcHist(&bgr[2], 1, 0, cv::Mat(), b_hist, 1, &binnum, &histoRange);
+    cv::calcHist(&bgr[1], 1, 0, cv::Mat(), g_hist, 1, &binnum, &histoRange);
+    cv::calcHist(&bgr[2], 1, 0, cv::Mat(), r_hist, 1, &binnum, &histoRange);
 
     // draw histo
     int wid = 512;
@@ -90,7 +91,7 @@ void lomoCallback(int state, void* userData)
     for (int i=0; i<256; i++)
     {
         double x = (double) i / 256.0;
-        plut[i] = cvRound(256.0 * (1 / (1 + std::pow(exp, -((x - 0.5)/1)))));
+        plut[i] = cvRound(256.0 * (1 / (1 + std::pow(exp, -((x - 0.5)/0.1)))));
     }
 
     // apply curve transfer only to red channel
@@ -163,7 +164,7 @@ void cartoonCallback(int state, void* userData)
 
 int main(int argc, const char** argv)
 {
-    std::cout << cv::getBuildInformation();
+    // std::cout << cv::getBuildInformation();
     cv::CommandLineParser parser(argc, argv, keys);
     parser.about("Phototool v1");
     if (parser.has("help")) 
@@ -173,25 +174,20 @@ int main(int argc, const char** argv)
     }
 
     cv::String imgFile = parser.get<cv::String>(0);
-    // checking if parameters were parsed correclty
     if (!parser.check())
     {
         parser.printErrors();
         return 0;
     }
 
-    // load image to process
-    cv::Mat img = cv::imread(imgFile);
-    // create window
+    img = cv::imread(imgFile);
     cv::namedWindow("Input");
 
-    // ui buttons
     cv::createButton("Show histogram", showHistoCallback, NULL, cv::QT_PUSH_BUTTON, 0);
     cv::createButton("Equalize histogram", equalizeCallback, NULL, cv::QT_PUSH_BUTTON, 0);
     cv::createButton("Lomography effect", lomoCallback, NULL, cv::QT_PUSH_BUTTON, 0);
     cv::createButton("Cartoonize effect", cartoonCallback, NULL, cv::QT_PUSH_BUTTON, 0);
 
-    // Show image
     cv::imshow("Input", img);
     cv::waitKey(0);
 
