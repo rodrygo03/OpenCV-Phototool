@@ -87,11 +87,10 @@ void lomoCallback(int state, void* userData)
     // Look up table:
     const double exp = std::exp(1.0);
     cv::Mat lut(1, 256, CV_8UC1);
-    uchar* plut = lut.data;
     for (int i=0; i<256; i++)
     {
-        double x = (double) i / 256.0;
-        plut[i] = cvRound(256.0 * (1 / (1 + std::pow(exp, -((x - 0.5)/0.1)))));
+        float x = (float) i / 256.0;
+        lut.at<uchar>(i) = cvRound(256 * (1 / (1 + pow(exp, -((x-0.5) / 0.1 )))));
     }
 
     // apply curve transfer only to red channel
@@ -118,7 +117,6 @@ void lomoCallback(int state, void* userData)
     bgr[0].release();
     bgr[1].release();
     bgr[2].release();
-
 };
 
 void cartoonCallback(int state, void* userData)
@@ -159,7 +157,6 @@ void cartoonCallback(int state, void* userData)
     resultf.convertTo(result, CV_8UC3);
 
     cv::imshow("Result", result);
-
 };
 
 int main(int argc, const char** argv)
