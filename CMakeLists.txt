@@ -7,10 +7,9 @@ IF(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     conan_basic_setup()
 ENDIF()
 
-set(OpenCV_DIR = /Users/rodrigoorozco/Source-libs/OpenCV/lib/cmake/opencv4)
-    # build from source // path to OpenCVConfig.cmake 
-    # address brew install qt compilation dependecy
-    # build from source instead
+# included opencv binaries from source build within the directory; opencv is gitignored
+set(OpenCV_DIR = ${CMAKE_CURRENT_SOURCE_DIR}/opencv-4.10.0/lib/cmake/opencv4)
+
 find_package(OpenCV 4.10.0 PATHS ${OpenCV_DIR})
 message("openCV version : ${OpenCV_VERSION}")
 

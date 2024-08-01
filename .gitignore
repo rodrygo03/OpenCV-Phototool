@@ -1,6 +1,10 @@
 # test image
 image.jpg 
 
+# opencv lib
+opencv-4.10.0/
+
+# other
 .vscode
 build/
 CMakeLists.txt.user
